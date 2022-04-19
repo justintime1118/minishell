@@ -6,6 +6,7 @@ NAME	= minishell
 HEAD	= incs/ -I utils/
 
 SRCS	=	src/main.c \
+			src/parse.c \
 			src/builtin/echo.c \
 			src/builtin/exit.c \
 			src/builtin/pwd.c \
@@ -17,11 +18,11 @@ OBJS	=	$(SRCS:.c=.o) \
 all : $(NAME)
 
 $(NAME) : $(OBJS)
-	$(CC) $(CFLAG) -I $(HEAD) -o $@ $^
+	$(CC) $(CFLAG) -I $(HEAD)  -o $@ $^ -lreadline
 
 %.o : %.c
 	$(MAKE) -C ./utils all
-	$(CC) $(CFLAGS) -I $(HEAD) -c $< -o $@
+	$(CC) $(CFLAGS) -I $(HEAD) -c $< -o $@ -lreadline
 
 clean :
 	$(MAKE) -C ./utils clean
