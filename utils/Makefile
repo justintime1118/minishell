@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yusong <yusong@student.42seoul.kr>         +#+  +:+       +#+         #
+#    By: yusong <42.4.yusong@gmail.com>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/08 18:32:33 by yusong            #+#    #+#              #
-#    Updated: 2021/05/11 01:29:13 by yusong           ###   ########.fr        #
+#    Updated: 2022/04/20 10:33:16 by yusong           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,8 +24,7 @@ SRCS = ft_memset.c ft_bzero.c ft_memcpy.c ft_memccpy.c ft_memmove.c \
 OBJS = $(SRCS:.c=.o)
 
 BSRCS = ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c \
-	ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c \
-	ft_lstmap.c \
+	ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c
 
 
 BOBJS	= $(BSRCS:.c=.o)

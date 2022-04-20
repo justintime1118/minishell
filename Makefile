@@ -1,5 +1,5 @@
 CC		= gcc
-CFLAG	= -Wextra -Werror -Wall
+# CFLAG	= -Wextra -Werror -Wall
 RM		= rm -f
 
 NAME	= minishell
@@ -7,10 +7,12 @@ HEAD	= incs/ -I utils/
 
 SRCS	=	src/main.c \
 			src/parse.c \
+			src/convert_env.c \
 			src/builtin/echo.c \
 			src/builtin/exit.c \
 			src/builtin/pwd.c \
-			src/builtin/unset.c
+			src/builtin/unset.c 
+
 
 OBJS	=	$(SRCS:.c=.o) \
 			./utils/*.o
@@ -21,7 +23,7 @@ $(NAME) : $(OBJS)
 	$(CC) $(CFLAG) -I $(HEAD)  -o $@ $^ -lreadline
 
 %.o : %.c
-	$(MAKE) -C ./utils all
+	$(MAKE) -C ./utils bonus
 	$(CC) $(CFLAGS) -I $(HEAD) -c $< -o $@ -lreadline
 
 clean :
