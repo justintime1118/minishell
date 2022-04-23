@@ -111,6 +111,7 @@ void display_arraylist(t_arraylist *arrlst)
 		printf("%s\n", arrlst->str_arr[i++]);
 }
 
+/*
 int	main(int argc, char **argv, char **envp)
 {
 	t_arraylist *arrlst;
@@ -120,3 +121,4 @@ int	main(int argc, char **argv, char **envp)
 	printf("%d, %s\n", argc, argv[0]);
 	return (0);
 }
+*/
