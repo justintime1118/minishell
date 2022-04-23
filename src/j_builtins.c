@@ -6,7 +6,7 @@
 /*   By: jiyoo <jiyoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 13:25:13 by jiyoo             #+#    #+#             */
-/*   Updated: 2022/04/20 17:26:42 by jiyoo            ###   ########.fr       */
+/*   Updated: 2022/04/23 15:08:08 by jiyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,16 @@
 
 /*
 <할 일>
-execve의 작동방식부터 공부
-envp를 가져와서 복사본을 만든다고 가정
-만든 복사본을 arrlst로 바꾼다고 가정
+array list 만들고, api를 그에 맞게 수정하자
+작은 함수들 구현
 
-다 만들고나서 yusong님이랑 에러처리는 어떻게 할지 맞추고 에러처리 및 norm도 다 해줘야 함
+이미 구현한 arraylist와 builtin에서 에러처리 컨벤션에 맞게 추가적으로 구현.
+norm 맞춰야 함
 */
 
-void	env(char **my_envp)
+void	env(t_arraylist *arrlst)
 {
-	for (int i = 0; my_envp[i] != NULL; i++)
-		printf("%s\n", my_envp[i]);
+	display_arraylist(arrlst);
 }
 
 void	cd(char *blah)
@@ -40,17 +39,15 @@ void	cd(char *blah)
 	// 디렉토리를 바꿔주는 함수들 숙지하고 구현
 }
 
-
-
 void	export(char **envp)
 {
-	// arraylist 먼저 구현하고 거기에 있는 api로 export 기능 구현
+	
 }
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-	env(envp);
-	return (0);
+	t_arraylist *arrlst;
+	arrlst = create_arraylist(envp);
 }
 
 /*

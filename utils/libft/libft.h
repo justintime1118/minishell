@@ -6,13 +6,14 @@
 /*   By: jiyoo <jiyoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 21:03:27 by jiyoo             #+#    #+#             */
-/*   Updated: 2022/04/19 23:36:25 by jiyoo            ###   ########.fr       */
+/*   Updated: 2022/04/23 13:45:47 by jiyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
+# include "../../incs/minishell.h"
 # include <stddef.h>
 # include <stdlib.h>
 # include <unistd.h>

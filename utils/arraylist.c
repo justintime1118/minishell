@@ -1,40 +1,41 @@
-#include "../incs/minishell.h"
+#include "arraylist.h"
 
-t_arraylist* createt_arraylist(int envp_len, char **my_envp)
+t_arraylist *create_arraylist(char **str)
 {
-	int	i;
-	t_arraylist *arrlst;
-	
-	arrlst = (t_arraylist *)malloc(sizeof(t_arraylist)); // 에러처리 해줄 것
-	arrlst->max_len = envp_len * 2;
-	arrlst->current_len = envp_len;
-	arrlst->env_arr = (char **)malloc(sizeof(char *) * arrlst->max_len);
-	if (arrlst->env_arr == 0)
+	int	len;
+	t_arraylist	*arrlst;
+
+	arrlst = (t_arraylist *)malloc(sizeof(t_arraylist));
+	if (arrlst == NULL)
+		exit(1);
+	len = 0;
+	while(str[len] != NULL)
+		len++;
+	arrlst->current_len = len;
+	arrlst->max_len = len * 2;
+	arrlst->str_arr = (char **)malloc(sizeof(char *) * (arrlst->max_len + 1));
+	arrlst->str_arr[len] = NULL;
+	if (arrlst->str_arr == NULL)
 	{
 		printf("malloc failed\n");
 		return (NULL);
 	}
-	for (int i = 0; i < envp_len; i++)
-		arrlst->env_arr[i] = my_envp[i];
+	while (len-- > 0)
+	{
+		arrlst->str_arr[len] = ft_strdup(str[len]);
+		if (arrlst->str_arr[len] == NULL)
+		{
+			printf("strdup failed\n");
+			return (NULL);
+		}
+	}
 	return (arrlst);
 }
 
-void deletet_arraylist(t_arraylist** arrlst)
-{
-	if (*arrlst == NULL || (*arrlst)->env_arr == NULL)
-	{
-		printf("invalid t_arraylist\n");
-		return ;
-	}
-	free((*arrlst)->env_arr);
-	(*arrlst)->env_arr = NULL;
-	free(*arrlst);
-	*arrlst = NULL;
-}
 
-int ist_arraylistFull(t_arraylist* arrlst)
+int is_arraylist_full(t_arraylist *arrlst)
 {
-	if (arrlst == NULL || arrlst->env_arr == NULL)
+	if (arrlst == NULL || arrlst->str_arr == NULL)
 	{
 		printf("invalid Array List\n");
 		return (ERROR);
@@ -45,118 +46,77 @@ int ist_arraylistFull(t_arraylist* arrlst)
 		return (FALSE);
 }
 
-void addALElement(t_arraylist* arrlst, char *element) 
+void add_element(t_arraylist *arrlst, char *element) 
 {
-	char	*value;
+	int		i;
+	char	**new_str_arr;
 
-	value = ft_strdup(element);
-	if (arrlst == NULL || arrlst->env_arr == NULL)
+	if (arrlst == NULL || arrlst->str_arr == NULL)
 	{
-		printf("invalid t_arraylist\n");
-		return (ERROR);
+		printf("invalid Array List\n");
+		return ;
 	}
-	if (ist_arraylistFull(arrlst) == TRUE)
+	if (is_arraylist_full(arrlst) == TRUE)
 	{
-		printf("the t_arraylist is full\n");
-		return (ERROR);
+		i = 0;
+		new_str_arr = (char **)malloc(sizeof(char *) * arrlst->max_len * 2);
+		while (i < arrlst->current_len)
+		{
+			new_str_arr[i] = ft_strdup(arrlst->str_arr[i]);
+			free(arrlst->str_arr[i++]);
+		}
+		free(arrlst->str_arr);
+		arrlst->str_arr = new_str_arr;
 	}
-
-	arrlst->env_arr[arrlst->current_len] = value;
+	arrlst->str_arr[arrlst->current_len] = ft_strdup(element);
 	arrlst->current_len++;
 }
 
-char* getALElement(t_arraylist* arrlst, char *element)
+// 앞부분이 element와 완전히 동일한 문자열이 있다면 그걸 반환하고 없으면 NULL을 반환
+char *get_element(t_arraylist *arrlst, char *element)
 {
-	if (arrlst == NULL || arrlst->env_arr == 0)
+	int		i;
+	char	*ret;
+
+	if (arrlst == NULL || arrlst->str_arr == NULL)
 	{
-		printf("invalid t_arraylist\n");
+		printf("invalid Array List\n");
 		return (NULL);
 	}
-	if (position < 0 || arrlst->current_len <= position)
+	i = 0;
+	ret = NULL;
+	while (i < arrlst->current_len)
 	{
-		printf("position out of bound\n");
-		return (NULL);
+		if (ft_strncmp(element, arrlst->str_arr[i], ft_strlen(element)) == 0)
+		{
+			ret = arrlst->str_arr[i];
+			break ;
+		}
+		i++;
 	}
-	return (&(arrlst->env_arr[position]));
+	return (ret);
 }
 
-void displayt_arraylist(t_arraylist* arrlst)
+void display_arraylist(t_arraylist *arrlst)
 {
 	int	i;
 
-	if (arrlst == NULL || arrlst->env_arr == 0)
+	if (arrlst == NULL || arrlst->str_arr == NULL)
 	{
-		printf("invalid t_arraylist\n");
+		printf("invalid Array List\n");
 		return ;
 	}
-	if (arrlst->current_len == 0)
-	{
-		printf("the t_arraylist is empty\n");
-		return ;
-	}
-	for (i = 0; i < arrlst->current_len - 1; i++)
-		printf("%d ", arrlst->env_arr[i].data);
-	printf("%d\n", arrlst->env_arr[i].data);
+	i = 0;
+	while (i < arrlst->current_len)
+		printf("%s\n", arrlst->str_arr[i++]);
 }
 
-void cleart_arraylist(t_arraylist* arrlst)
-{
-	if (arrlst == NULL || arrlst->env_arr == 0)
-	{
-		printf("invalid t_arraylist\n");
-		return ;
-	}
-	for (int i = 0; i < arrlst->current_len; i++)
-		arrlst->env_arr[i].data = 0;
-	arrlst->current_len = 0;
-}
-
-int gett_arraylistLength(t_arraylist* arrlst)
-{
-	if (arrlst == NULL || arrlst->env_arr == NULL)
-	{
-		printf("invalid t_arraylist\n");
-		return (ERROR);
-	}
-	return (arrlst->current_len);
-}
-
-/*
-int main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	t_arraylist *arrlst;
-	t_arraylistNode node;
-
-	node.data = 1;
-	
-	arrlst = createt_arraylist(10);
-	
-	for (int i = 0; i < 11; i++)
-	{
-		addALElement(arrlst, i, node);
-		printf("CYCLE %d: length == %d\n", i, gett_arraylistLength(arrlst));
-		node.data++;
-	}
-	
-	if (ist_arraylistFull(arrlst) == TRUE)
-		printf("TRUE: FULL\n");
-	else
-		printf("FALSE: NOT FULL\n");
-	
-	// removeALElement(arrlst, 3);
-	// removeALElement(arrlst, 11);
-	
-	// if (ist_arraylistFull(arrlst) == TRUE)
-	// 	printf("TRUE: FULL\n");
-	// else
-	// 	printf("FALSE: NOT FULL\n");
-	
-	// addALElement(arrlst, 10, node);
-
-	// addALElement(arrlst, 3, node);
-	// deletet_arraylist(arrlst);
-	// cleart_arraylist(arrlst);
-	// addALElement(arrlst, 0, node);
-	displayt_arraylist(arrlst);
+	arrlst = create_arraylist(envp);
+	add_element(arrlst, "yeah baby!");
+	display_arraylist(arrlst);
+	printf("%d, %s\n", argc, argv[0]);
+	return (0);
 }
-*/

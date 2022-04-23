@@ -6,7 +6,7 @@
 /*   By: jiyoo <jiyoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 13:54:03 by jiyoo             #+#    #+#             */
-/*   Updated: 2022/04/19 23:30:37 by jiyoo            ###   ########.fr       */
+/*   Updated: 2022/04/23 13:49:18 by jiyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,5 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 		s4++;
 		i++;
 	}
-	if (i == n)
-	{
-		s3--;
-		s4--;
-	}
-	return ((int)(*s3 - *s4));
+	return (0);
 }
