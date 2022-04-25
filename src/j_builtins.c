@@ -6,7 +6,7 @@
 /*   By: jiyoo <jiyoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 13:25:13 by jiyoo             #+#    #+#             */
-/*   Updated: 2022/04/23 20:43:51 by jiyoo            ###   ########.fr       */
+/*   Updated: 2022/04/25 09:24:23 by jiyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@
 
 /*
 <할 일>
-export에 대해서 좀 알아보고 얼마나 깊이까지 똑같이 구현해야 할지 생각해본 뒤 yusong님과 논의
-나머지 빌트인들 어떻게 구현할지 구상
 그 외에 파싱 등등 전체적인 구조 어떻게 구현할지 구상
 
 이미 구현한 arraylist와 builtin에서 에러처리 컨벤션에 맞게 추가적으로 구현.
@@ -41,12 +39,20 @@ void	cd(char *path)
 		printf("cd failed\n");
 }
 
-void	export(char **envp)
+void	export(t_arraylist *arrlst, char *arg)
 {
-	// export 제대로 구현하려고 하면 신경쓸 거 개많은디...?
-	// 예를 들어 TERM을 바꾼다 치면 여기서는 공부할 것도 많고 신경쓸 것도 많음
-	// 일단은 새로운 환경변수 추가하는 것만 구현하자
+	add_element(arrlst, arg);
+}
 
+int	main(int argc, char **argv, char **envp)
+{
+	t_arraylist *arrlst;
+
+	arrlst = create_arraylist(envp);
+	export(arrlst, "WATER=moressang");
+	env(arrlst);
+	printf("\n\n%d %s\n", argc, argv[0]);
+	return (0);
 }
 
 /*
