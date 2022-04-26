@@ -7,6 +7,7 @@ HEAD	= incs/ -I utils/
 
 SRCS	=	src/main.c \
 			src/parse.c \
+			src/engine.c \
 			src/convert_env.c \
 			src/builtin/echo.c \
 			src/builtin/exit.c \

@@ -25,6 +25,9 @@ char	make_el(t_list **head, char *l);
 char	ft_exit(char **cmd);
 char	ft_pwd(void);
 
+// engine
+char	loop(char **cmd, char **env)
+
 ////////////
 
 
