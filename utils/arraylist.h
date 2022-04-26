@@ -13,8 +13,8 @@ typedef struct t_arraylistType
 t_arraylist*	create_arraylist(char **str);
 int				is_arraylist_full(t_arraylist* arrlst);
 void			add_element(t_arraylist* arrlst, char *element);
-void			remove_elemnet(t_arraylist* arrlst, char *element);
-char*			get_element(t_arraylist* arrlst, char *element);
+void			remove_element(t_arraylist* arrlst, char *element);
+int				get_element_idx(t_arraylist* arrlst, char *element);
 void			display_arraylist(t_arraylist* arrlst);
 
 #endif

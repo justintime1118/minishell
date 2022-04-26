@@ -32,7 +32,6 @@ t_arraylist *create_arraylist(char **str)
 	return (arrlst);
 }
 
-
 int is_arraylist_full(t_arraylist *arrlst)
 {
 	if (arrlst == NULL || arrlst->str_arr == NULL)
@@ -72,29 +71,55 @@ void add_element(t_arraylist *arrlst, char *element)
 	arrlst->current_len++;
 }
 
-// 앞부분이 element와 완전히 동일한 문자열이 있다면 그걸 반환하고 없으면 NULL을 반환
-char *get_element(t_arraylist *arrlst, char *element)
+void	remove_element(t_arraylist* arrlst, char *element)
 {
-	int		i;
-	char	*ret;
+	int	idx;
+	int	i;
 
 	if (arrlst == NULL || arrlst->str_arr == NULL)
 	{
 		printf("invalid Array List\n");
-		return (NULL);
+		return ;
+	}
+	else if (arrlst->current_len == 0)
+	{
+		printf("the ArrayList is empty\n");
+		return ;
+	}
+	else
+	{
+		idx = get_element_idx(arrlst, element);
+		if (idx == -1)
+			return ;
+		free(arrlst->str_arr[idx]);
+		i = idx;
+		while (idx < arrlst->current_len - 1)
+			arrlst->str_arr[i] = arrlst->str_arr[i + 1];
+		free(arrlst->str_arr[idx]);
+		arrlst->str_arr[idx] = NULL;
+		arrlst->current_len--;
+	}
+}
+
+// 앞부분이 element와 완전히 동일한 문자열이 있다면 그 문자열의 인덱스를 반환하고 없으면 -1을 반환
+int	get_element_idx(t_arraylist *arrlst, char *element)
+{
+	int		i;
+
+	if (arrlst == NULL || arrlst->str_arr == NULL)
+	{
+		printf("invalid Array List\n");
+		return (-1);
 	}
 	i = 0;
-	ret = NULL;
 	while (i < arrlst->current_len)
 	{
-		if (ft_strncmp(element, arrlst->str_arr[i], ft_strlen(element)) == 0)
-		{
-			ret = arrlst->str_arr[i];
-			break ;
-		}
+		if (ft_strncmp(element, arrlst->str_arr[i], ft_strlen(element)) == 0
+			&& arrlst->str_arr[i][ft_strlen(element)] == '=')
+			return (i);
 		i++;
 	}
-	return (ret);
+	return (-1);
 }
 
 void display_arraylist(t_arraylist *arrlst)

@@ -6,7 +6,7 @@
 /*   By: jiyoo <jiyoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 13:25:13 by jiyoo             #+#    #+#             */
-/*   Updated: 2022/04/25 20:06:04 by jiyoo            ###   ########.fr       */
+/*   Updated: 2022/04/27 01:22:56 by jiyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,12 @@
 
 /*
 <할 일>
-unset이랑 delete 구현
+unset이랑 remove 구현
+	-> 중간을 비우게 되면 문제가 생기고 기본 쉘의 동작과도 결과값이 다르게 나오게 됨
 슬랙에서 논의한대로 add 논리 수정
-환경변수 초기값은 수정 불가하게 구현. 그치만 이게 괜찮을지는 함 생각해보자
-위에 다 했으면 큰 그림 나도 생각해보기
+	-> 얘도 마찬가지
 
-이미 구현한 arraylist와 builtin에서 에러처리 컨벤션에 맞게 추가적으로 구현.
-norm 맞춰야 함
+이미 구현한 libft, arraylist와 builtin 등등 모든 것들에서 에러처리 컨벤션에 맞게 추가적으로 구현해야 함.
 */
 
 int	env(t_arraylist *arrlst)
@@ -51,25 +50,43 @@ int	cd(char *path)
 
 int	export(t_arraylist *arrlst, char *arg)
 {
-	char	*value;
+	char	*copy;
+	size_t	i;
+	int		idx;
 
-	// name이 "환경변수명"이어야 함. 등호 이전까지만 넣어야 한다는 것
-	value = getenv(name);
+	copy = ft_strdup(arg);
+	// 아무 인자없이 호출하면 환경변수 목록 출력
+	if (arg == NULL) // NULL로 해도 될라나??
+		display_arraylist(arrlst);
+	
+	i = 0;
+	while (arg[i] != '=' && i < ft_strlen(copy))
+		i++;
+	if (i == ft_strlen(copy))
+		return (1);
+	else
+		copy[i] = '\0';
+	idx = get_element_idx(arrlst, copy);
+	free(copy);
 	// 만약 존재하지 않는 환경변수를 입력했다면 새로 추가
-	if (value == NULL)
+	if (idx == -1)
 		add_element(arrlst, arg);
-	// 이미 존재하는 환경변수를 입력했다면 값을 수정. 근데 얘는 조심해서 해야됨
+	// 이미 존재하는 환경변수를 입력했을 때, 값을 수정해주는 부분. 여기에 idx 값에 제한을 걸거나 해서 실제 쉘과 최대한 맞춰야 할 듯
 	else
 	{
-		value = get_element(arrlst, name);
-
+		free(arrlst->str_arr[idx]);
+		arrlst->str_arr[idx] = ft_strdup(arg);
+		if (arrlst->str_arr[idx] == NULL)
+			return (1);
 	}
 	return (0);
 }
 
+// 환경변수 명이 들어오면 그걸 삭제하는 것
 int	unset(t_arraylist *arrlst, char *name)
 {
-	// 환경변수 명이 들어오면 그걸 삭제하는 것
+	remove_element(arrlst, name);
+	return (0);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -77,7 +94,10 @@ int	main(int argc, char **argv, char **envp)
 	t_arraylist *arrlst;
 	
 	arrlst = create_arraylist(envp);
+	env(arrlst);
+	printf("\n\n");
 	export(arrlst, "WATER=moressang");
+	export(arrlst, "TERM=aaaaaaaaaaaaaaaaaaaaa");
 	env(arrlst);
 	printf("\n\n%d %s\n", argc, argv[0]);
 	return (0);
