@@ -6,29 +6,49 @@
 /*   By: jiyoo <jiyoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 13:25:13 by jiyoo             #+#    #+#             */
-/*   Updated: 2022/04/27 01:22:56 by jiyoo            ###   ########.fr       */
+/*   Updated: 2022/04/27 15:04:02 by jiyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
 /*
-<전체적 흐름>
-미니쉘 프로그램 실행
-프롬프트 나타남 <term.h> 내의 tcgetarrt, tcsetattr를 이용
-명령어 입력 -> readline 이용
-명령어 파싱 후 실행 -> 우리가 구현한 builtin인지, 아니면 execve로 실행시킬 것인지에 따라 다르게 돌아감. pipex에서 사용한 로직이 필요함
-	우리가 구현한 builtin이라면 루틴을 호출하는 것으로 해당 기능을 구현한다.
-위아래 키로 history 뜨게 하는 것 -> readline과 연관되어 있음
-*/
 
-/*
+<서브젝트 요구사항>
+0. 새로운 커맨드 기다릴 때 프롬프트 나타나도록 할 것
+	-> history 구현
+	-> ', " inhibit. 따옴표로 감싸면 String으로 받는 것 구현(단, ""안에 $는 처리 필요)
+	-> 환경변수가 $뒤에 쓰이면 그 값으로 대치되는 것 구현
+1. pipe |
+	->redirecetions <, >, <<, >> 구현
+	-> executable을 search해서 launch하는 것 구현(환경변수를 쓰던, 절대 또는 상대경로를 쓰던)
+2. $? should expands to the exit status of the most recently executed foreground pipeline.
+3. builtin 7개 구현
+4. ctrl-C ctrl-D ctrl-\ should work like in bash.
+
+5. 기타 조건들
+	-> 닫히지 않은 따옴표나 \ 또는 ;는 해석하지 말 것
+	-> 전역변수는 1개를 넘게 사용하지 말 것. 그리고 그 이유에 대해서 생각해 둘 것
+
+
+<구현에 요구되는 자료구조>
+- 커맨드 history 저장을 위한 문자열 리스트
+
+
 <할 일>
+요구사항을 보고 큼직하게 나누고 그 뒤에 다시 세세하게 모듈로 나눈다
+(모듈을 어떻게 구현할지를 알 수 있으려면 허용함수들, 미니쉘과 관련된 CS지식, bash의 작동방식에 대한 이해가 선행되어야 할 것 같다)
+모듈 간 의존성을 분석하여, 추후 모듈 단위 개발을 할 때 다 짜고나서 다시 갈아엎는 일이 없도록 한다
+분석을 토대로 큰 그림을 짠다 -> 로직과 거기에 요구되는 자료구조 구상
+구현 시작!
+
+이미 구현한 libft, arraylist와 builtin 등등 모든 것들에서 에러처리 컨벤션에 맞게 추가적으로 구현해야 함.
+
+<전달해야 할 것들>
 unset이랑 remove 구현
 	-> 중간을 비우게 되면 문제가 생기고 기본 쉘의 동작과도 결과값이 다르게 나오게 됨
 슬랙에서 논의한대로 add 논리 수정
 	-> 얘도 마찬가지
 
-이미 구현한 libft, arraylist와 builtin 등등 모든 것들에서 에러처리 컨벤션에 맞게 추가적으로 구현해야 함.
 */
 
 int	env(t_arraylist *arrlst)
