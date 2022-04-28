@@ -26,7 +26,8 @@ char	ft_exit(char **cmd);
 char	ft_pwd(void);
 
 // engine
-char	loop(char **cmd, char **env)
+char	loop(char **env);
+char	command_work(char **cmd);
 
 ////////////
 

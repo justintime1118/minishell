@@ -8,7 +8,6 @@ HEAD	= incs/ -I utils/
 SRCS	=	src/main.c \
 			src/parse.c \
 			src/engine.c \
-			src/convert_env.c \
 			src/builtin/echo.c \
 			src/builtin/exit.c \
 			src/builtin/pwd.c \
@@ -25,7 +24,7 @@ $(NAME) : $(OBJS)
 
 %.o : %.c
 	$(MAKE) -C ./utils bonus
-	$(CC) $(CFLAGS) -I $(HEAD) -c $< -o $@ -lreadline
+	$(CC) $(CFLAGS) -I $(HEAD) -c $< -o $@
 
 clean :
 	$(MAKE) -C ./utils clean

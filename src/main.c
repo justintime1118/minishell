@@ -6,7 +6,7 @@
 /*   By: yusong <42.4.yusong@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 09:44:34 by yusong            #+#    #+#             */
-/*   Updated: 2022/04/26 20:50:21 by yusong           ###   ########.fr       */
+/*   Updated: 2022/04/28 14:24:28 by yusong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 
 int	main(int argc, char **argv, char **env)
 {
-	
+	char **cmd;
+
+	loop(env);
 	return (0);
 }

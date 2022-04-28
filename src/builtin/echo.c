@@ -6,7 +6,7 @@
 /*   By: yusong <42.4.yusong@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 08:47:19 by yusong            #+#    #+#             */
-/*   Updated: 2022/04/24 19:46:43 by yusong           ###   ########.fr       */
+/*   Updated: 2022/04/28 14:17:42 by yusong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ char	ft_echo(char **cmd)
 	if (flag)
 		i = 1;
 	else
-		i = 0
+		i = 0;
 	while (cmd[++i])
-		ft_putstr_fd(cmd[i], STDOUT_FILENO)
+		ft_putstr_fd(cmd[i], STDOUT_FILENO);
 	if (flag)
 		write(STDOUT_FILENO, "\n", 1);
 	return (SUCCESS);
