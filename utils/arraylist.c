@@ -2,6 +2,7 @@
 
 t_arraylist *create_arraylist(char **str)
 {
+	int	i;
 	int	len;
 	t_arraylist	*arrlst;
 
@@ -13,13 +14,15 @@ t_arraylist *create_arraylist(char **str)
 		len++;
 	arrlst->current_len = len;
 	arrlst->max_len = len * 2;
-	arrlst->str_arr = (char **)malloc(sizeof(char *) * (arrlst->max_len + 1));
-	arrlst->str_arr[len] = NULL;
+	arrlst->str_arr = (char **)malloc(sizeof(char *) * (arrlst->max_len));
 	if (arrlst->str_arr == NULL)
 	{
 		printf("malloc failed\n");
 		return (NULL);
 	}
+	i = 0;
+	while (i < arrlst->max_len)
+		arrlst->str_arr[i++] = NULL;
 	while (len-- > 0)
 	{
 		arrlst->str_arr[len] = ft_strdup(str[len]);
@@ -47,8 +50,8 @@ int is_arraylist_full(t_arraylist *arrlst)
 
 void add_element(t_arraylist *arrlst, char *element) 
 {
-	int		i;
-	char	**new_str_arr;
+	int			i;
+	char		**new_str_arr;
 
 	if (arrlst == NULL || arrlst->str_arr == NULL)
 	{
@@ -67,14 +70,16 @@ void add_element(t_arraylist *arrlst, char *element)
 		free(arrlst->str_arr);
 		arrlst->str_arr = new_str_arr;
 	}
-	arrlst->str_arr[arrlst->current_len] = ft_strdup(element);
+	i = 0;
+	while (arrlst->str_arr[i] != NULL)
+		i++;
+	arrlst->str_arr[i] = ft_strdup(element);
 	arrlst->current_len++;
 }
 
 void	remove_element(t_arraylist* arrlst, char *element)
 {
 	int	idx;
-	int	i;
 
 	if (arrlst == NULL || arrlst->str_arr == NULL)
 	{
@@ -92,10 +97,6 @@ void	remove_element(t_arraylist* arrlst, char *element)
 		if (idx == -1)
 			return ;
 		free(arrlst->str_arr[idx]);
-		i = idx;
-		while (idx < arrlst->current_len - 1)
-			arrlst->str_arr[i] = arrlst->str_arr[i + 1];
-		free(arrlst->str_arr[idx]);
 		arrlst->str_arr[idx] = NULL;
 		arrlst->current_len--;
 	}
@@ -112,9 +113,10 @@ int	get_element_idx(t_arraylist *arrlst, char *element)
 		return (-1);
 	}
 	i = 0;
-	while (i < arrlst->current_len)
+	while (i < arrlst->max_len)
 	{
-		if (ft_strncmp(element, arrlst->str_arr[i], ft_strlen(element)) == 0
+		if (arrlst->str_arr[i] != NULL
+			&& ft_strncmp(element, arrlst->str_arr[i], ft_strlen(element)) == 0
 			&& arrlst->str_arr[i][ft_strlen(element)] == '=')
 			return (i);
 		i++;
@@ -132,8 +134,12 @@ void display_arraylist(t_arraylist *arrlst)
 		return ;
 	}
 	i = 0;
-	while (i < arrlst->current_len)
-		printf("%s\n", arrlst->str_arr[i++]);
+	while (i < arrlst->max_len)
+	{
+		if (arrlst->str_arr[i] != NULL)
+			printf("%s\n", arrlst->str_arr[i]);
+		i++;
+	}
 }
 
 /*
@@ -141,8 +147,10 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_arraylist *arrlst;
 	arrlst = create_arraylist(envp);
-	add_element(arrlst, "yeah baby!");
+	add_element(arrlst, "USER=sexy_guy");
+	remove_element(arrlst, "TERM");
 	display_arraylist(arrlst);
+	printf("\n");
 	printf("%d, %s\n", argc, argv[0]);
 	return (0);
 }

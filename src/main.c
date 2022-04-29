@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   j_builtins.c                                       :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiyoo <jiyoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 13:25:13 by jiyoo             #+#    #+#             */
-/*   Updated: 2022/04/28 16:11:57 by jiyoo            ###   ########.fr       */
+/*   Updated: 2022/04/30 01:29:42 by jiyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,84 +51,22 @@ jiyoo
 이미 구현한 libft, arraylist와 builtin 등등 모든 것들에서 에러처리 컨벤션에 맞게 추가적으로 구현해야 함.
 
 <할 것들>
-remove를 하면 해당 index 원소를 그냥 free하고 NULL로 초기화하여 비워두는 것으로 구현
-이후 add로 추가할 때는 위에서부터 빈자리 탐색해서 넣는 걸로 수정
-export에서 그냥 환경변수건 뭐건 뭐가 들어와도 값은 그냥 일단 다 바꿔주는걸로 하자
-yusong님이 구현하신 builtin들 살펴보고 수정할 부분 있으면 수정. 단, echo는 옵션도 있고 하니까 나중에 수정하는 걸로!
-
-위에꺼 다하면 yusong님이 구현중인 부분 같이 살펴보면서 더 잘게잘게 모듈로 나눠서 각자 구현하던지 하자
-
+yusong님이 구현중인 부분 같이 살펴보면서 더 잘게잘게 모듈로 나눠서 각자 구현하던지 하자
 
 */
 
-int	env(t_arraylist *arrlst)
-{
-	display_arraylist(arrlst);
-	return (0);
-}
-
-int	cd(char *path)
-{
-	if (chdir(path) == -1)
-	{
-		printf("cd failed\n");
-		return (-1);
-	}
-	return (0);
-}
-
-
-int	export(t_arraylist *arrlst, char *arg)
-{
-	char	*copy;
-	size_t	i;
-	int		idx;
-
-	copy = ft_strdup(arg);
-	// 아무 인자없이 호출하면 환경변수 목록 출력
-	if (arg == NULL) // NULL로 해도 될라나??
-		display_arraylist(arrlst);
-	
-	i = 0;
-	while (arg[i] != '=' && i < ft_strlen(copy))
-		i++;
-	if (i == ft_strlen(copy))
-		return (1);
-	else
-		copy[i] = '\0';
-	idx = get_element_idx(arrlst, copy);
-	free(copy);
-	// 만약 존재하지 않는 환경변수를 입력했다면 새로 추가
-	if (idx == -1)
-		add_element(arrlst, arg);
-	// 이미 존재하는 환경변수를 입력했을 때, 값을 수정해주는 부분. 여기에 idx 값에 제한을 걸거나 해서 실제 쉘과 최대한 맞춰야 할 듯
-	else
-	{
-		free(arrlst->str_arr[idx]);
-		arrlst->str_arr[idx] = ft_strdup(arg);
-		if (arrlst->str_arr[idx] == NULL)
-			return (1);
-	}
-	return (0);
-}
-
-// 환경변수 명이 들어오면 그걸 삭제하는 것
-int	unset(t_arraylist *arrlst, char *name)
-{
-	remove_element(arrlst, name);
-	return (0);
-}
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_arraylist *arrlst;
-	
+
 	arrlst = create_arraylist(envp);
-	env(arrlst);
-	printf("\n\n");
 	export(arrlst, "WATER=moressang");
+	unset(arrlst, "USER");
+	export(arrlst, "NEW_USER=sexy_guy");
 	export(arrlst, "TERM=aaaaaaaaaaaaaaaaaaaaa");
-	env(arrlst);
+	export(arrlst, "");
 	printf("\n\n%d %s\n", argc, argv[0]);
+	
 	return (0);
 }

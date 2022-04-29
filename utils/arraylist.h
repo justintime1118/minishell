@@ -1,13 +1,15 @@
 #ifndef _ARRAYLIST_
 #define _ARRAYLIST_
 
-# include "../incs/minishell.h"
+# include "./libft/libft.h"
+# include <stdlib.h>
+# include <stdio.h>
 
 typedef struct t_arraylistType
 {
 	int max_len;				// 최대 원소 개수
 	int current_len;			// 현재 원소의 개수
-	char **str_arr;			// 문자열 저장을 위한 배열
+	char **str_arr;				// 문자열 저장을 위한 배열
 } t_arraylist;
 
 t_arraylist*	create_arraylist(char **str);

@@ -6,7 +6,7 @@
 #    By: jiyoo <jiyoo@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/24 22:58:40 by jiyoo             #+#    #+#              #
-#    Updated: 2022/04/24 23:11:02 by jiyoo            ###   ########.fr        #
+#    Updated: 2022/04/30 01:02:17 by jiyoo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,12 +16,12 @@ HEADER = ./incs/minishell.h
 NAME = minishell
 
 SRCS = \
-./src/j_builtins.c \
+./src/cd.c \
 
 all: $(NAME)
 
 $(NAME):
-	$(CC) $(CFLAGS) -I $(HEADER) ./src/j_builtins.c ./utils/*.c ./utils/libft/*.c -o $(NAME)
+	$(CC) $(CFLAGS) -I $(HEADER) ./src/*.c ./utils/*.c ./utils/libft/*.c -o $(NAME)
 
 
 # all: $(NAME)
