@@ -8,6 +8,8 @@ HEAD	= incs/ -I utils/
 SRCS	=	src/main.c \
 			src/parse.c \
 			src/engine.c \
+			src/command.c \
+			src/tune_fd.c \
 			src/builtin/echo.c \
 			src/builtin/exit.c \
 			src/builtin/pwd.c \
