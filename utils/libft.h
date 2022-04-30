@@ -6,7 +6,7 @@
 /*   By: yusong <42.4.yusong@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 17:49:02 by yusong            #+#    #+#             */
-/*   Updated: 2022/04/20 10:35:09 by yusong           ###   ########.fr       */
+/*   Updated: 2022/04/30 18:53:10 by yusong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char			**ft_split(char const *s, char c);
 char			*ft_strchr(const char *str, int ch);
 char			*ft_strdup(const char *s);
 size_t			ft_strlen(const char *str);
-char			*ft_strjoin(char const *s1, char const *s2);
+char			*ft_strjoin(char *s1, char const *s2);
 size_t			ft_strlcat(char *dest, const char *src, size_t destsize);
 size_t			ft_strlcpy(char *dest, const char *src, size_t size);
 char			*ft_strmapi(char const *s, char (*f)(unsigned int, char));

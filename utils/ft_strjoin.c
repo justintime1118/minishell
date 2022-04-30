@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusong <yusong@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: yusong <42.4.yusong@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/09 20:14:17 by yusong            #+#    #+#             */
-/*   Updated: 2021/05/10 23:47:18 by yusong           ###   ########.fr       */
+/*   Updated: 2022/04/30 19:09:18 by yusong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char const *s2)
 {
 	size_t	len_s1;
 	size_t	len_s2;

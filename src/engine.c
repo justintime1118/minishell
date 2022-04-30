@@ -6,59 +6,119 @@
 /*   By: yusong <42.4.yusong@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 18:51:00 by yusong            #+#    #+#             */
-/*   Updated: 2022/04/30 10:12:18 by yusong           ###   ########.fr       */
+/*   Updated: 2022/04/30 20:28:09 by yusong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	work_builtin(char **cmd, int *fd, int dep)
+// char	work_builtin(char **cmd, t_arraylist *env, int dep)
+// {
+// 	// switch builtin
+// 	if (!ft_strncmp(cmd[dep], "echo", 4) && ft_strlen(cmd[dep]) == 4)
+// 		return (ft_echo(cmd));
+// 	else if (!ft_strncmp(cmd[dep], "exit", 4) && ft_strlen(cmd[dep]) == 4)
+// 		return (ft_exit(cmd));
+// 	else if (!ft_strncmp(cmd[dep], "pwd", 3) && ft_strlen(cmd[dep]) == 3)
+// 		return (ft_pwd());
+// 	else if (!ft_strncmp(cmd[dep], "unset", 5) && ft_strlen(cmd[dep]) == 5)
+// 		return (ft_unset(env, cmd));
+// 	else if (!ft_strncmp(cmd[dep], "export", 6) && ft_strlen(cmd[dep]) == 6)
+// 		return (ft_export(env, cmd));
+// 	else if (!ft_strncmp(cmd[dep], "env", 3) && ft_strlen(cmd[dep]) == 3)
+// 		return (ft_env(env));
+// 	else if (!ft_strncmp(cmd[dep], "cd", 2) && ft_strlen(cmd[dep]) == 2)
+// 		return (ft_cd(cmd));
+// }
+char	rp_checker(char *s)
 {
-	// switch builtin
-	if (!ft_strncmp(cmd[dep], "echo", 4) && ft_strlen(cmd[dep]) == 4)
-	else if (!ft_strncmp(cmd[dep], "exit", 4) && ft_strlen(cmd[dep]) == 4)
-	else if (!ft_strncmp(cmd[dep], "pwd", 3) && ft_strlen(cmd[dep]) == 3)
-	else if (!ft_strncmp(cmd[dep], "unset", 5) && ft_strlen(cmd[dep]) == 5)
-	else if (!ft_strncmp(cmd[dep], "export", 6) && ft_strlen(cmd[dep]) == 6)
-	else if (!ft_strncmp(cmd[dep], "env", 3) && ft_strlen(cmd[dep]) == 3)
-	else if (!ft_strncmp(cmd[dep], "cd", 2) && ft_strlen(cmd[dep]) == 2)
+	if ((!ft_strncmp(s, ">", 1) && ft_strlen(s) == 1) || \
+		(!ft_strncmp(s, "<", 1) && ft_strlen(s) == 1) || \
+		(!ft_strncmp(s, ">>", 2) && ft_strlen(s) == 2) || \
+		(!ft_strncmp(s, "|", 1) && ft_strlen(s) == 1))
+		return (0);
+	return (1);
 }
 
-char	work_unit(char **cmd, char **env, int *fd, int dep)
+char	*command_combine_option(char **cmd, int *dep)
 {
-	int		child;
+	char	*ret;
+	char	*front;
+	char	*tmp;
+	int		i;
 
-	if (cmd[dep] == NULL)
-		exit(0);
-	child = fork();
-	if (child == 0)
-		work_unit(cmd, env, fd, dep + 1);
-	wait(NULL);
-	work_builtin(cmd, fd, dep);
-	// path 설정
-	execve(tmp[0], tmp, env);
+	i = 0;
+	if (cmd[i] == NULL)
+		return (NULL);
+	ret = ft_strdup(cmd[i]);
+	i++;
+	while (cmd[i] && rp_checker(cmd[i]))
+	{
+		front = ft_strjoin(cmd[i], " ");
+		printf("%s\n", front);
+		tmp = ret;
+		ret = ft_strjoin(front, ret);
+		free(tmp);
+		free(front);
+		i++;
+	}
+	*dep = i;
+	return (ret);
+}
+
+char	work_unit(char **cmd, t_arraylist *env, int *fd, int dep)
+{
+	pid_t	child;
+	char	*now_cmd;
+	int		idx;
+
+	idx = dep;
+	now_cmd = command_combine_option(cmd, &idx);
+	// if (now_cmd == NULL)
+	// 	return(0);
+	// child = fork();
+	// if (child == 0)
+	// 	work_unit(cmd, env, fd, idx);
+	// else
+	{
+		wait(NULL);
+		// // // path 설정 있는지 확인
+		// // // 빌트인 명령어
+		char *c[5] = {
+			"/bin/bash",
+			"-c",
+			now_cmd,
+			NULL
+		};
+		execve(c[0], c, env->str_arr);
+	}
 	return (FAIL);
 }
 
 
-char	engine(char **cmd, char **env)
+char	engine(t_arraylist *env)
 {
 	char	**cmd;
 	int		fd[2];
-
+	pid_t	child;
+	int		ret;
 	pipe(fd);
-	cmd = parse();
-	command_work(cmd);
-	work_unit(cmd, env, fd, 0);
-	return (SUCCESS);
+	child = fork();
+	if (child == 0)
+	{
+		cmd = parse();
+		command_work(cmd, env);
+		work_unit(cmd, env, fd, 0);
+	}
+	else
+		wait(&ret);
+	return (ret);
 }
 
-char	loop(char **env)
+char	loop(t_arraylist *env)
 {
 	int		ret;
 
 	while(1)
-	{
-		ret = engine(cmd, env);
-	}
+		ret = engine(env);
 }

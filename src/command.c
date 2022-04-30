@@ -6,7 +6,7 @@
 /*   By: yusong <42.4.yusong@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 21:46:14 by yusong            #+#    #+#             */
-/*   Updated: 2022/04/30 10:08:03 by yusong           ###   ########.fr       */
+/*   Updated: 2022/04/30 18:17:13 by yusong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,27 @@ void	command_reverse(char **cmd)
 	}
 }
 
-void	command_env(char **cmd, char **env)
+void	command_env(char **cmd, t_arraylist *env)
 {
 	size_t	i;
 	size_t	idx;
 	char	**kv;
+	char	nil;
 
+	nil = '\0';
 	i = -1;
 	while (cmd[++i])
 	{
 		if (cmd[i][0] == '$')
 		{
-			idx = get_element_idx(ARRAYLIST, &cmd[i][1]);
-			kv = ft_split(ARRAYLIST[idx], '=');
+			idx = get_element_idx(env, &cmd[i][1]);
+			if (idx == -1)
+			{
+				free(cmd[i]);
+				cmd[i] = &nil;
+				continue ;
+			}
+			kv = ft_split(env->str_arr[idx], '=');
 			free(cmd[i]);
 			cmd[i] = kv[1];
 			free(kv[0]);
@@ -61,12 +69,8 @@ void	command_env(char **cmd, char **env)
 	}
 }
 
-void	command_redirection(char **cmd)
-{
-	
-}
 
-char	command_work(char **cmd, char **env)
+char	command_work(char **cmd, t_arraylist *env)
 {
 	// fix < redirection
 	command_env(cmd, env);

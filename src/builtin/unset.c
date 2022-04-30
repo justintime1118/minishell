@@ -5,14 +5,15 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yusong <42.4.yusong@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/19 02:40:30 by yusong            #+#    #+#             */
-/*   Updated: 2022/04/24 19:48:51 by yusong           ###   ########.fr       */
+/*   Created: 2022/04/30 00:20:25 by jiyoo             #+#    #+#             */
+/*   Updated: 2022/04/30 17:16:40 by yusong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	ft_unset(char **cmd)
+int	ft_unset(t_arraylist *arrlst, char *name)
 {
-	return (FAIL);
+	remove_element(arrlst, name);
+	return (0);
 }
