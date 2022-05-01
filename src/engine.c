@@ -6,7 +6,7 @@
 /*   By: yusong <42.4.yusong@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 18:51:00 by yusong            #+#    #+#             */
-/*   Updated: 2022/04/30 20:28:09 by yusong           ###   ########.fr       */
+/*   Updated: 2022/05/01 11:52:16 by yusong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*command_combine_option(char **cmd, int *dep)
 	char	*tmp;
 	int		i;
 
-	i = 0;
+	i = *dep;
 	if (cmd[i] == NULL)
 		return (NULL);
 	ret = ft_strdup(cmd[i]);
@@ -55,7 +55,6 @@ char	*command_combine_option(char **cmd, int *dep)
 	while (cmd[i] && rp_checker(cmd[i]))
 	{
 		front = ft_strjoin(cmd[i], " ");
-		printf("%s\n", front);
 		tmp = ret;
 		ret = ft_strjoin(front, ret);
 		free(tmp);
@@ -74,12 +73,13 @@ char	work_unit(char **cmd, t_arraylist *env, int *fd, int dep)
 
 	idx = dep;
 	now_cmd = command_combine_option(cmd, &idx);
-	// if (now_cmd == NULL)
-	// 	return(0);
-	// child = fork();
-	// if (child == 0)
-	// 	work_unit(cmd, env, fd, idx);
-	// else
+	if (now_cmd == NULL)
+		exit(0);
+	tune_fd(cmd, fd, idx);
+	child = fork();
+	if (child == 0)
+		work_unit(cmd, env, fd, idx + 1);
+	else
 	{
 		wait(NULL);
 		// // // path 설정 있는지 확인
