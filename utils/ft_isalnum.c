@@ -1,25 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusong <42.4.yusong@gmail.com>             +#+  +:+       +#+        */
+/*   By: yusong <yusong@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/20 09:44:34 by yusong            #+#    #+#             */
-/*   Updated: 2022/04/30 16:12:00 by yusong           ###   ########.fr       */
+/*   Created: 2021/05/08 17:15:19 by yusong            #+#    #+#             */
+/*   Updated: 2021/05/09 20:16:04 by yusong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-// only change lstnew.
-// if you want to use other lst-fun, have to modify.
-
-int	main(int argc, char **argv, char **env)
+int		ft_isalnum(int c)
 {
-	char **cmd;
-
-
-	loop(create_arraylist(env));
+	if (ft_isalpha(c) || ft_isdigit(c))
+		return (1);
 	return (0);
 }

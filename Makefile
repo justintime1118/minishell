@@ -1,45 +1,39 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: jiyoo <jiyoo@student.42seoul.kr>           +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/04/24 22:58:40 by jiyoo             #+#    #+#              #
-#    Updated: 2022/04/30 01:02:17 by jiyoo            ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+CC		= gcc
+# CFLAG	= -Wextra -Werror -Wall
+RM		= rm -f
 
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror
-HEADER = ./incs/minishell.h
-NAME = minishell
+NAME	= minishell
+HEADER	= -I incs/ -I utils/
 
-SRCS = \
-./src/cd.c \
-
-all: $(NAME)
-
-$(NAME):
-	$(CC) $(CFLAGS) -I $(HEADER) ./src/*.c ./utils/*.c ./utils/libft/*.c -o $(NAME)
+SRCS	=	src/command.c \
+			src/engine.c \
+			src/main.c \
+			src/parse.c \
+			src/tune_fd.c \
+			src/arraylist.c \
+			src/builtin/*.c
 
 
-# all: $(NAME)
+OBJS	=	$(SRCS:.c=.o) \
+			./utils/*.o
 
-# OBJS = $(SRCS:.c=.o)
+all : $(NAME)
 
-# $(NAME): $(OBJS)
-# 	$(CC) $(CFLAGS) -I $(HEADER) $(OBJS) -o $(NAME)
+$(NAME) : $(OBJS)
+	$(CC) $(CFLAG) $(HEADER) -o $@ $^ -lreadline
 
-# %.o: %.c $(HEADER)
-# 	$(CC) $(CFLAGS) -I $(HEADER) -c $< -o $@
+%.o : %.c
+	$(MAKE) -C ./utils bonus
+	$(CC) $(CFLAGS) $(HEADER) -c $< -o $@
 
-clean:
-	rm -f $(OBJS)
+clean :
+	$(MAKE) -C ./utils clean
+	$(RM) $(OBJS)
 
-fclean: clean
-	rm -f $(NAME)
+fclean : clean
+	$(MAKE) -C ./utils fclean
+	$(RM) $(NAME)
 
-re: fclean all
+re : fclean all
 
 .PHONY: all clean fclean re

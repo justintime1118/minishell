@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusong <42.4.yusong@gmail.com>             +#+  +:+       +#+        */
+/*   By: yusong <yusong@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/20 09:44:34 by yusong            #+#    #+#             */
-/*   Updated: 2022/04/30 16:12:00 by yusong           ###   ########.fr       */
+/*   Created: 2021/05/08 17:05:10 by yusong            #+#    #+#             */
+/*   Updated: 2021/05/09 20:15:42 by yusong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-// only change lstnew.
-// if you want to use other lst-fun, have to modify.
-
-int	main(int argc, char **argv, char **env)
+void	*ft_memset(void *dest, int value, size_t count)
 {
-	char **cmd;
+	unsigned char	*temp;
+	size_t			i;
 
-
-	loop(create_arraylist(env));
-	return (0);
+	i = 0;
+	temp = (unsigned char *)dest;
+	while (i < count)
+		temp[i++] = (unsigned char)value;
+	return (dest);
 }

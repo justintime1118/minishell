@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusong <42.4.yusong@gmail.com>             +#+  +:+       +#+        */
+/*   By: yusong <yusong@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/20 09:44:34 by yusong            #+#    #+#             */
-/*   Updated: 2022/04/30 16:12:00 by yusong           ###   ########.fr       */
+/*   Created: 2021/05/10 04:49:42 by yusong            #+#    #+#             */
+/*   Updated: 2021/05/10 18:10:35 by yusong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-// only change lstnew.
-// if you want to use other lst-fun, have to modify.
-
-int	main(int argc, char **argv, char **env)
+int		ft_lstsize(t_list *lst)
 {
-	char **cmd;
+	int		i;
+	t_list	*temp;
 
-
-	loop(create_arraylist(env));
-	return (0);
+	i = 0;
+	temp = lst;
+	while (temp)
+	{
+		temp = temp->next;
+		i++;
+	}
+	return (i);
 }

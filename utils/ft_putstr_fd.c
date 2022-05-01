@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusong <42.4.yusong@gmail.com>             +#+  +:+       +#+        */
+/*   By: yusong <yusong@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/20 09:44:34 by yusong            #+#    #+#             */
-/*   Updated: 2022/04/30 16:12:00 by yusong           ###   ########.fr       */
+/*   Created: 2021/05/08 19:57:06 by yusong            #+#    #+#             */
+/*   Updated: 2021/05/10 01:53:42 by yusong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-// only change lstnew.
-// if you want to use other lst-fun, have to modify.
-
-int	main(int argc, char **argv, char **env)
+void	ft_putstr_fd(char *s, int fd)
 {
-	char **cmd;
-
-
-	loop(create_arraylist(env));
-	return (0);
+	if (s == 0)
+		return ;
+	while (*s)
+		write(fd, s++, 1);
 }

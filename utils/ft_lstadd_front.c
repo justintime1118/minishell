@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusong <42.4.yusong@gmail.com>             +#+  +:+       +#+        */
+/*   By: yusong <yusong@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/20 09:44:34 by yusong            #+#    #+#             */
-/*   Updated: 2022/04/30 16:12:00 by yusong           ###   ########.fr       */
+/*   Created: 2021/05/10 05:36:52 by yusong            #+#    #+#             */
+/*   Updated: 2021/05/11 01:30:13 by yusong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-// only change lstnew.
-// if you want to use other lst-fun, have to modify.
-
-int	main(int argc, char **argv, char **env)
+void	ft_lstadd_front(t_list **lst, t_list *new)
 {
-	char **cmd;
-
-
-	loop(create_arraylist(env));
-	return (0);
+	if (new == 0 || lst == 0)
+		return ;
+	if (*lst)
+		new->next = *lst;
+	else
+		new->next = NULL;
+	*lst = new;
 }
