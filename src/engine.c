@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   engine.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusong <42.4.yusong@gmail.com>             +#+  +:+       +#+        */
+/*   By: jiyoo <jiyoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 18:51:00 by yusong            #+#    #+#             */
-/*   Updated: 2022/05/01 11:52:16 by yusong           ###   ########.fr       */
+/*   Updated: 2022/05/01 16:00:43 by jiyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,9 @@ char	work_unit(char **cmd, t_arraylist *env, int *fd, int dep)
 	now_cmd = command_combine_option(cmd, &idx);
 	if (now_cmd == NULL)
 		exit(0);
-	tune_fd(cmd, fd, idx);
+	//tune_fd(cmd, fd, idx);
 	child = fork();
+	
 	if (child == 0)
 		work_unit(cmd, env, fd, idx + 1);
 	else
@@ -90,7 +91,7 @@ char	work_unit(char **cmd, t_arraylist *env, int *fd, int dep)
 			now_cmd,
 			NULL
 		};
-		execve(c[0], c, env->str_arr);
+		//execve(c[0], c, env->str_arr);
 	}
 	return (FAIL);
 }
@@ -102,6 +103,7 @@ char	engine(t_arraylist *env)
 	int		fd[2];
 	pid_t	child;
 	int		ret;
+
 	pipe(fd);
 	child = fork();
 	if (child == 0)

@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   tune_fd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusong <42.4.yusong@gmail.com>             +#+  +:+       +#+        */
+/*   By: jiyoo <jiyoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 20:13:47 by yusong            #+#    #+#             */
-/*   Updated: 2022/05/01 11:52:34 by yusong           ###   ########.fr       */
+/*   Updated: 2022/05/01 14:33:16 by jiyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+/*
 char	tune_fd1(char *cmd, int *fd, int dep)
 {
 	if (dep != 0)
@@ -55,3 +55,4 @@ char	tune_fd(char **cmd, int *fd, int dep)
 			return (FAIL);
 	return (SUCCESS);
 }
+*/
