@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusong <42.4.yusong@gmail.com>             +#+  +:+       +#+        */
+/*   By: jiyoo <jiyoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 09:44:34 by yusong            #+#    #+#             */
-/*   Updated: 2022/04/30 16:12:00 by yusong           ###   ########.fr       */
+/*   Updated: 2022/05/05 18:31:42 by jiyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 int	main(int argc, char **argv, char **env)
 {
 	char **cmd;
-
 
 	loop(create_arraylist(env));
 	return (0);
