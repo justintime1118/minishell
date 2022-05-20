@@ -6,7 +6,7 @@
 /*   By: yusong <42.4.yusong@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 18:51:00 by yusong            #+#    #+#             */
-/*   Updated: 2022/05/01 11:52:16 by yusong           ###   ########.fr       */
+/*   Updated: 2022/05/20 18:27:08 by yusong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,15 +73,26 @@ char	work_unit(char **cmd, t_arraylist *env, int *fd, int dep)
 
 	idx = dep;
 	now_cmd = command_combine_option(cmd, &idx);
+
+	// if (dep != 0)
+	// {
+	// 	dup2(fd[0], STDIN_FILENO);
+	// 	dup2(fd[1], STDOUT_FILENO);
+	// }
+	// else
+	// {
+	// 	dup2(fd[0], STDIN_FILENO);
+	// }
 	if (now_cmd == NULL)
 		exit(0);
-	tune_fd(cmd, fd, idx);
 	child = fork();
 	if (child == 0)
 		work_unit(cmd, env, fd, idx + 1);
 	else
 	{
 		wait(NULL);
+		dup2(fd[0], STDIN_FILENO);
+		dup2(fd[1], STDOUT_FILENO);
 		// // // path 설정 있는지 확인
 		// // // 빌트인 명령어
 		char *c[5] = {
@@ -99,9 +110,12 @@ char	work_unit(char **cmd, t_arraylist *env, int *fd, int dep)
 char	engine(t_arraylist *env)
 {
 	char	**cmd;
-	int		fd[2];
 	pid_t	child;
 	int		ret;
+	int		fd[2];
+	int		r;
+	char	buf[100];
+
 	pipe(fd);
 	child = fork();
 	if (child == 0)
@@ -111,7 +125,19 @@ char	engine(t_arraylist *env)
 		work_unit(cmd, env, fd, 0);
 	}
 	else
-		wait(&ret);
+	{
+		wait(NULL);
+		printf("check\n");
+		char EOT = 4;
+		write(fd[1], &EOT, 1);
+		// while (r = read(fd[0], buf, 1))
+		// {
+		// 	if (buf[0] == 4)
+		// 		return 0;
+		// 	buf[r] = 0;
+		// 	write(1, buf, r);
+		// }
+	}
 	return (ret);
 }
 
@@ -120,5 +146,7 @@ char	loop(t_arraylist *env)
 	int		ret;
 
 	while(1)
+	{
 		ret = engine(env);
+	}
 }
